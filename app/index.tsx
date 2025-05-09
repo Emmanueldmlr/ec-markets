@@ -17,6 +17,7 @@ import { VStack } from "@/components/ui/vstack";
 import { DEFAULT_SPACING } from "@/constants/ChartData";
 import { CHART_KEYS } from "@/constants/ChartKeys";
 import { Colors } from "@/constants/Colors";
+import useMarketData from "@/hooks/useMarketData";
 import { FetchMarketData } from "@/services/MarketDataSrv";
 import { MarketDataArrayType } from "@/types/marketDataType";
 import { formatMarketData } from "@/utils/marketDataFormatter";
@@ -25,12 +26,10 @@ import { ActivityIndicator, Platform, SafeAreaView, useColorScheme } from "react
 import colors from "tailwindcss/colors";
 
 const index = () => {
-  const [marketData, setMarketData] = useState<MarketDataArrayType[] | null>(
-    null
-  );
-  const [selectedData, setSelectedData] = useState<
-    MarketDataArrayType[] | null
-  >(null);
+  const { marketData, isFetchingData, error, setIsFetchingData } = useMarketData();
+ const [selectedData, setSelectedData] = useState<MarketDataArrayType[] | null>(
+   null
+ );
 
   // State for the selected chart key OPEN, HIGH, LOW, CLOSE... All of them are selected by default
   const [selectedChartKey, setSelectedChartKey] = useState<string[]>([
@@ -50,10 +49,7 @@ const index = () => {
 
   const effectiveScheme = darkMode ? "dark" : colorScheme;
   const theme = Colors[effectiveScheme === "dark" ? "dark" : "light"];
-  const [isFetchingData, setIsFetchingData] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Effect to set the selected data to be used in the chart
   useEffect(() => {
     if (marketData && marketData.length > 0) {
       setSelectedData(
@@ -62,23 +58,8 @@ const index = () => {
       setIsFetchingData(false);
     }
   }, [marketData, selectedChartKey]);
-
-  
-  useEffect(() => {
-    // Fetch market data from the apidog mock server
-    const getMarketData = async () => {
-      try {
-        setIsFetchingData(true);
-        const data = await FetchMarketData({ stockName: "AAPL" });
-        const formattedData = formatMarketData(data); // Format the market data to be used in the chart
-        setMarketData(formattedData); // Set the market data
-      } catch (error) {
-        setError(error instanceof Error ? error.message : String(error));
-        setIsFetchingData(false);
-      }
-    };
-    getMarketData();
-  }, []);
+ 
+  // Effect to set the selected data to be used in the chart
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
