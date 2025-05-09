@@ -1,50 +1,114 @@
-# Welcome to your Expo app 👋
+# AAPL Market Data React Native App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Table of Contents
 
-## Get started
+1. [Project Name](#project-name)
+2. [Table of Contents](#table-of-contents)
+3. [Key Dependencies](#key-dependencies)
+4. [Installation](#installation)
+5. [Features](#features)
+6. [Codebase Structure](#codebase-structure)
+7. [Key Dependencies](#key-dependencies)
 
-1. Install dependencies
+## Project Name
 
+AAPL Market Data React Native App
+
+## Key Dependencies
+
+- react-native-gifted-charts: This is a charting library for React Native that is used to create the chart. Version 1.4.61 was used and it requires Node version v20.18.1
+
+- Gluestack UI: This is a UI library for React Native that is used to create the UI. Version 0.1.22 was used.
+
+- Expo: This is a framework for building React Native apps. Version 53.0.8 was used.
+
+- React Native: This is a framework for building native apps. Version 0.74.3 was used.
+
+
+
+## Installation
+
+1. Clone the repository:
    ```bash
-   npm install
+   git clone <repo-url>
+   cd <repo-directory>
    ```
-
-2. Start the app
-
+2. Install dependencies:
+   ```ba
+   npm install
+   # or
+   yarn install
+   ```
+3. Run the app:
    ```bash
    npx expo start
+   # or for bare React Native
+   npx react-native run-ios
+   npx react-native run-android
    ```
 
-In the output, you'll find options to open the app in a
+## Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Interactive line chart for AAPL market data (Open, Close, High, Low)
+- Pinch-to-zoom and reset zoom
+- Dark mode toggle
+- Dynamic chart key selection (show/hide Open, Close, High, Low)
+- Error handling and loading states
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Codebase Structure
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+├── app/
+│   └── index.tsx                # Main entry point and screen
+├── components/
+│   └── ui/
+│       ├── chart/               # ChartComponent and related UI
+│       ├── box.tsx
+│       ├── card.tsx
+│       ├── hstack.tsx
+│       ├── vstack.tsx
+│       ├── text.tsx
+│       ├── image.tsx
+│       ├── checkbox.tsx
+│       └── ...
+├── constants/
+│   ├── ChartData.ts             # Chart spacing and constants
+│   ├── ChartKeys.ts             # Chart key names and color pairs
+│   └── Colors.ts                # Theme colors
+├── services/
+│   └── MarketDataSrv.ts         # FetchMarketData service
+├── types/
+│   └── marketDataType.ts        # TypeScript types for market data
+├── utils/
+│   └── marketDataFormatter.ts   # Data formatting utilities
+└── ...
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# App folder contains the main screen of the app.
 
-## Learn more
+# Components 
 
-To learn more about developing your project with Expo, look at the following resources:
+The components folder contains all the reusable UI components used throughout the app. These are modular building blocks such as buttons, cards, checkboxes, charts, and layout helpers (like HStack and VStack). Organizing UI elements here promotes reusability and maintainability, allowing you to build complex screens by composing these smaller components.
+`ui/chart/`: Contains the chart component and related logic for rendering market data.
+`ui/box.tsx`, `ui/card.tsx`, etc.: Individual UI primitives for layout and display.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Constants folder 
 
-## Join the community
+The constants folder holds reusable constant values that are used across the app. This includes things like chart configuration values (e.g., spacing), color palettes, and key names for chart data. Keeping these values in a dedicated folder makes it easy to update and manage them in one place.
+`ChartData.ts`: Chart spacing and configuration constants.
+`ChartKeys.ts`: Key names and color mappings for chart lines.
+`Colors.ts`: Theme color definitions for light and dark modes.
 
-Join our community of developers creating universal apps.
+# Services folder 
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The services folder contains modules responsible for handling external data fetching and business logic. For example, `MarketDataSrv.ts` is responsible for fetching market data from the API or mock server. This separation keeps your data logic decoupled from your UI components, making the codebase easier to test and maintain.
+
+# Types folder 
+
+The types folder defines TypeScript types and interfaces used throughout the app. This ensures type safety and better developer experience by providing clear contracts for data structures, such as market data objects and API responses.
+`marketDataType.ts`: Type definitions for market data and related structures.
+
+# Utils folder 
+
+The utils folder contains utility functions and helpers that perform data transformation, formatting, or other generic tasks. For example, `marketDataFormatter.ts` is used to process and format raw market data into a structure suitable for charting. Utilities are kept separate to promote code reuse and clarity.
+# ec-markets
